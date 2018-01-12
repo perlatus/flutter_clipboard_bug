@@ -7,14 +7,18 @@ void main() => runApp(new MyApp());
 class MyApp extends StatelessWidget {
   Function _paste(BuildContext ctx) {
     return () async {
-      ClipboardData data = await Clipboard.getData(Clipboard.kTextPlain);
-      Scaffold.of(ctx).showSnackBar(new SnackBar(
-            content: new Text(
-              data != null
-                  ? 'Clipboard: "${data.text}"'
-                  : 'ClipboardData is null',
-            ),
-          ));
+      try {
+        ClipboardData data = await Clipboard.getData(Clipboard.kTextPlain);
+        Scaffold.of(ctx).showSnackBar(new SnackBar(
+              content: new Text(
+                data != null
+                    ? 'Clipboard: "${data.text}"'
+                    : 'ClipboardData is null',
+              ),
+            ));
+      } catch (e) {
+        print('caught: "${e.toString()}"');
+      }
     };
   }
 
